@@ -29,7 +29,6 @@ describe('ts-oc', () => {
     expect(x.c[0]()).toEqual(-100);
     expect(x.c[100]()).toBeUndefined();
     expect(x.c[100](1234)).toEqual(1234);
-    expect(x.c.map((e) => e())).toEqual([-100, 200, -300]);
     expect(x.d.e()).toBeUndefined();
     expect(x.d.e('optional default value')).toEqual('optional default value');
     expect((x as any).y.z.a.b.c.d.e.f.g.h.i.j.k()).toBeUndefined();
@@ -48,6 +47,7 @@ describe('ts-oc', () => {
       }>;
       e?: {
         f?: string;
+        g?: () => string;
       };
     }
 
@@ -64,8 +64,8 @@ describe('ts-oc', () => {
     expect(oc(x).c[0].u.v()).toEqual(x.c && x.c[0] && x.c[0].u && (x as any).c[0].u.v);
     expect(oc(x).c[100].u.v()).toEqual(x.c && x.c[100] && x.c[100].u && (x as any).c[100].u.v);
     expect(oc(x).c[100].u.v(1234)).toEqual(x.c && x.c[100] && x.c[100].u && (x as any).c[100].u.v || 1234);
-    expect(oc(x).c.map((z) => z.u.v())).toEqual(x.c && x.c.map((z) => z.u && z.u.v));
     expect(oc(x).e.f()).toEqual(x.e && x.e.f);
     expect(oc(x).e.f('optional default value')).toEqual(x.e && x.e.f || 'optional default value');
+    expect(oc(x).e.g(() => 'Yo Yo')()).toEqual((x.e && x.e.g || (() => 'Yo Yo'))());
   });
 });

@@ -30,6 +30,7 @@ interface I {
   }>;
   e?: {
     f?: string;
+    g?: () => string;
   };
 }
 
@@ -60,14 +61,16 @@ x.c && x.c[100] && x.c[100].u && x.c[100].u.v;
 oc(x).c[100].u.v(1234); // 1234
 x.c && x.c[100] && x.c[100].u && x.c[100].u.v || 1234;
 
-oc(x).c.map((z) => z.u.v()); // [-100, 200, undefined, -300]
-x.c && x.c.map((z) => z.u && z.u.v);
-
 oc(x).e.f(); // undefined
 x.e && x.e.f;
 
 oc(x).e.f('optional default value'); // 'optional default value'
 x.e && x.e.f || 'optional default value';
+
+// NOTE: working with function value types can be risky. Additional run-time
+// checks to verify that object types are functions before invocation are advised!
+oc(x).e.g(() => 'Yo Yo')(); // 'Yo Yo'
+(x.e && x.e.g || (() => 'Yo Yo'))();
 ```
 
 ## Problem
@@ -142,21 +145,20 @@ const phoneNumberRequired = oc(user).home.phoneNumber('+1.555.123.4567');
 
 ### Array Types
 
-`ts-oc` supports traversing Array types and Array methods. For example:
+`ts-oc` supports traversal of Array types by index. For example:
 
 ```typescript
 interface IItem {
-  requiredName: string;
-  quantity?: number;
+  name?: string;
 }
 
 interface ICollection {
   items?: IItem[];
 }
 
-function getNonZeroQuantityItems(collection: ICollection) {
-  // Return type: string[]
-  return oc(collection).items.filter((item) => item.quantity(0)).map((item) => item.requiredName());
+function getFirstItemName(collection: ICollection) {
+  // Return type: string
+  return oc(collection).items[0].name('No Name Item');
 }
 ```
 

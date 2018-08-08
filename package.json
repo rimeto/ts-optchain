@@ -27,6 +27,7 @@
       "js",
       "json"
     ],
+    "rootDir": "./src",
     "testEnvironment": "node",
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "transform": {

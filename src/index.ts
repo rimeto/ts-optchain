@@ -56,13 +56,15 @@ export type DataAccessor<T> = DataAccessorWithoutDefault<T> & DataAccessorWithDe
 export type ObjectWrapper<T> = { [K in keyof T]-?: OCType<Defined<T[K]>> };
 
 /**
- * `ArrayWrapper` is an Array of `OCType`.
+ * `ArrayWrapper` gives TypeScript visibility into the `OCType` values of an array
+ * without exposing Array methods (it is problematic to attempt to invoke methods during
+ * the course of an optional chain traversal).
  */
-export interface ArrayWrapper<T> extends Array<OCType<T>> {}
+export interface ArrayWrapper<T> { [K: number]: OCType<T> };
 
 /**
- * `DataWrapper` selects between the `ObjectWrapper`, `ArrayWrapper`, and `DataAccessor` types
- * to wrap array, object, and primitive types respectively.
+ * `DataWrapper` selects between `ArrayWrapper`, `ObjectWrapper`, and `DataAccessor` types
+ * to wrap arrays, objects and primitive types respectively.
  */
 export type DataWrapper<T> = T extends any[]
   ? ArrayWrapper<T[number]>
@@ -115,12 +117,6 @@ export function oc<T>(data?: T): OCType<T> {
         const obj: any = target();
         if ('object' !== typeof obj) {
           return oc();
-        }
-
-        // Propagate proxy to Array elements if we're invoking an array method
-        if (obj instanceof Array && (Array.prototype as any)[key] instanceof Function) {
-          const proxied: any = obj.map((e: any) => oc(e));
-          return proxied[key].bind(proxied);
         }
 
         return oc(obj[key]);
