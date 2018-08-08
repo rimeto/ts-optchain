@@ -60,7 +60,10 @@ export type ObjectWrapper<T> = { [K in keyof T]-?: OCType<Defined<T[K]>> };
  * without exposing Array methods (it is problematic to attempt to invoke methods during
  * the course of an optional chain traversal).
  */
-export interface ArrayWrapper<T> { [K: number]: OCType<T> };
+export interface ArrayWrapper<T> {
+  length: OCType<number>;
+  [K: number]: OCType<T>;
+};
 
 /**
  * `DataWrapper` selects between `ArrayWrapper`, `ObjectWrapper`, and `DataAccessor` types

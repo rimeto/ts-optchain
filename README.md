@@ -95,7 +95,7 @@ interface IUser {
 }
 ```
 
-A implementation for a method to extract the home street string from this structure would be:
+Without support for optional chaining built into TypeScript yet, an implementation for a method to extract the home street string from this structure would look like:
 
 ```typescript
 function getHomeStreet(user: IUser, defaultValue?: string) {
@@ -103,7 +103,7 @@ function getHomeStreet(user: IUser, defaultValue?: string) {
 }
 ```
 
-This implementation is cumbersome and requires repetitive typing. Utilities like `lodash`'s `get(...)` can help tighten the implementation, namely:
+This implementation is tedious to write. Utilities like `lodash`'s `get(...)` can help tighten the implementation, namely:
 
 ```typescript
 import { get } from 'lodash';
@@ -113,7 +113,7 @@ function getHomeStreet(user: IUser, defaultValue?: string) {
 }
 ```
 
-However, when using `lodash` the developer unfortunately loses the benefits of:
+However, when using tools like `lodash` the developer loses the benefits of:
 
 * Compile-time validation of the path `home.address.street`
 * Compile-time validation of the expected type of the value at `home.address.street`
@@ -131,9 +131,11 @@ function getHomeStreet(user: IUser, defaultValue?: string) {
 }
 ```
 
+Other features of `ts-oc` include:
+
 ### Type Preservation
 
-`ts-oc` preserves TypeScript typings through deep-tree traversal. For example:
+`ts-oc` preserves TypeScript typings through deep tree traversal. For example:
 
 ```typescript
 // phoneNumberOptional is of type: string | undefined
@@ -164,7 +166,7 @@ function getFirstItemName(collection: ICollection) {
 
 ### Function Types
 
-`ts-oc` supports traversing to function types. For example:
+`ts-oc` supports traversal to function values. For example:
 
 ```typescript
 interface IThing {
