@@ -1,6 +1,6 @@
 # Optional Chaining for TypeScript
 
-The `ts-oc` library brings optional chaining with default value support to TypeScript with type preservation. Optional chaining leads to less verbose code and stronger type safety.
+The `ts-oc` library is an implementation of optional chaining with default value support for TypeScript. `ts-oc` helps the developer produce less verbose code while preserving TypeScript typings when traversing deep property structures. This library serves as an interim solution pending JavaScript/TypeScript built-in support for optional chaining in future releases (see: [Related Resources](#related)).
 
 ## Install
 
@@ -43,8 +43,10 @@ const x: I = {
 };
 
 
-// Examples of deep object traversal using optional chaining vs traditional approach.
-// Benefits of optional chaining accrue with depth and complexity of traversal.
+// Here are a few examples of deep object traversal using (a) optional chaining vs 
+// (b) logic expressions. Each of the following pairs are equivalent in
+// result. Note how the benefits of optional chaining accrue with 
+// the depth and complexity of the traversal.
 
 oc(x).a(); // 'hello'
 x.a;
@@ -181,7 +183,7 @@ const result = oc(thing).getter(() => 'Default Getter')();
 
 `ts-oc` enables code-completion assistance in popular IDEs such as Visual Studio Code when writing tree-traversal code.
 
-## Related Resources
+## <a name="related"></a>Related Resources
 
 * [Optional Chaining for JavaScript (TC39 Proposal)](https://github.com/tc39/proposal-optional-chaining)
 
