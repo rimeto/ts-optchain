@@ -1,11 +1,11 @@
 # Optional Chaining for TypeScript
 
-The `ts-oc` library is an implementation of optional chaining with default value support for TypeScript. `ts-oc` helps the developer produce less verbose code while preserving TypeScript typings when traversing deep property structures. This library serves as an interim solution pending JavaScript/TypeScript built-in support for optional chaining in future releases (see: [Related Resources](#related)).
+The `ts-optchain` library is an implementation of optional chaining with default value support for TypeScript. `ts-optchain` helps the developer produce less verbose code while preserving TypeScript typings when traversing deep property structures. This library serves as an interim solution pending JavaScript/TypeScript built-in support for optional chaining in future releases (see: [Related Resources](#related)).
 
 ## Install
 
 ```bash
-npm i --save ts-oc
+npm i --save ts-optchain
 ```
 
 ### Requirements
@@ -16,7 +16,7 @@ npm i --save ts-oc
 ## Example Usage
 
 ```typescript
-import { oc } from 'ts-oc';
+import { oc } from 'ts-optchain';
 
 interface I {
   a?: string;
@@ -43,9 +43,9 @@ const x: I = {
 };
 
 
-// Here are a few examples of deep object traversal using (a) optional chaining vs 
+// Here are a few examples of deep object traversal using (a) optional chaining vs
 // (b) logic expressions. Each of the following pairs are equivalent in
-// result. Note how the benefits of optional chaining accrue with 
+// result. Note how the benefits of optional chaining accrue with
 // the depth and complexity of the traversal.
 
 oc(x).a(); // 'hello'
@@ -123,21 +123,21 @@ However, when using tools like `lodash` the developer loses the benefits of:
 
 ## Solution
 
-Using the `ts-oc` utility, `getHomeStreet` can be concisely written as:
+Using the `ts-optchain` utility, `getHomeStreet` can be concisely written as:
 
 ```typescript
-import { oc } from 'ts-oc';
+import { oc } from 'ts-optchain';
 
 function getHomeStreet(user: IUser, defaultValue?: string) {
   return oc(user).home.address.street(defaultValue);
 }
 ```
 
-Other features of `ts-oc` include:
+Other features of `ts-optchain` include:
 
 ### Type Preservation
 
-`ts-oc` preserves TypeScript typings through deep tree traversal. For example:
+`ts-optchain` preserves TypeScript typings through deep tree traversal. For example:
 
 ```typescript
 // phoneNumberOptional is of type: string | undefined
@@ -149,7 +149,7 @@ const phoneNumberRequired = oc(user).home.phoneNumber('+1.555.123.4567');
 
 ### Array Types
 
-`ts-oc` supports traversal of Array types by index. For example:
+`ts-optchain` supports traversal of Array types by index. For example:
 
 ```typescript
 interface IItem {
@@ -168,7 +168,7 @@ function getFirstItemName(collection: ICollection) {
 
 ### Function Types
 
-`ts-oc` supports traversal to function values. For example:
+`ts-optchain` supports traversal to function values. For example:
 
 ```typescript
 interface IThing {
@@ -181,7 +181,7 @@ const result = oc(thing).getter(() => 'Default Getter')();
 
 ### Code-Completion
 
-`ts-oc` enables code-completion assistance in popular IDEs such as Visual Studio Code when writing tree-traversal code.
+`ts-optchain` enables code-completion assistance in popular IDEs such as Visual Studio Code when writing tree-traversal code.
 
 ## <a name="related"></a>Related Resources
 
@@ -189,4 +189,4 @@ const result = oc(thing).getter(() => 'Default Getter')();
 
 ## License
 
-`ts-oc` is MIT Licensed.
+`ts-optchain` is MIT Licensed.

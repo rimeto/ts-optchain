@@ -7,7 +7,7 @@
 
 import { oc } from '../index';
 
-describe('ts-oc', () => {
+describe('ts-optchain', () => {
   it('sanity checks', () => {
     interface X {
       a: string;

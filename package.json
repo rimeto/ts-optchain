@@ -1,16 +1,16 @@
 {
-  "name": "ts-oc",
+  "name": "ts-optchain",
   "version": "0.1.0",
   "description": "Optional Chaining for TypeScript",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rimeto/ts-oc.git"
+    "url": "git+https://github.com/rimeto/ts-optchain.git"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "test": "jest"
   },
   "license": "MIT",
