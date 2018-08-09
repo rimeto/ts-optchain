@@ -1,0 +1,48 @@
+{
+  "name": "ts-oc",
+  "version": "0.1.0",
+  "description": "Optional Chaining for TypeScript",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rimeto/ts-oc.git"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublish": "npm run build",
+    "test": "jest"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^23.3.1",
+    "jest": "^23.4.2",
+    "ts-jest": "^23.1.2",
+    "typescript": "^2.9.2"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ],
+    "rootDir": "./src",
+    "testEnvironment": "node",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    }
+  },
+  "keywords": [
+    "existential operator",
+    "null conditional operator",
+    "null propagation operator",
+    "optional chaining",
+    "safe navigation operator",
+    "typescript"
+  ],
+  "engines": {
+    "node": ">=6"
+  }
+}
