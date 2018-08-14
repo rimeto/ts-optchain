@@ -19,29 +19,23 @@ export type Defined<T> = Exclude<T, undefined>;
 
 ////////////////////////////
 //
-// DataAccessor Definitions
+// IDataAccessor Definition
 //
 ////////////////////////////
 
-/**
- * Interface for the data accessor w/o a default value.
- * Note: because no default value exists, we always assume
- * the data accessor can return `undefined`.
- */
-export type DataAccessorWithoutDefault<T> = () => Defined<T> | undefined;
+export interface IDataAccessor<T> {
+  /**
+   * Data accessor without a default value. If no data exists,
+   * `undefined` is returned.
+   */
+  (): Defined<T> | undefined;
 
-/**
- * Interface for the data accessor w/ default value.
- * @param defaultValue
- */
-export type DataAccessorWithDefault<T> = (defaultValue: Defined<T>) => Defined<T>;
-
-/**
- * Intersection of `DataAccessorWithDefault` and `DataAccessorWithoutDefault`
- * to support data access with and without a specified default value.
- */
-export type DataAccessor<T> = DataAccessorWithoutDefault<T> & DataAccessorWithDefault<T>;
-
+  /**
+   * Data accessor with default value.
+   * @param defaultValue
+   */
+  (defaultValue: Defined<T>): Defined<T>;
+}
 
 ///////////////////////////
 //
@@ -66,14 +60,14 @@ export interface ArrayWrapper<T> {
 };
 
 /**
- * `DataWrapper` selects between `ArrayWrapper`, `ObjectWrapper`, and `DataAccessor` types
- * to wrap arrays, objects and primitive types respectively.
+ * `DataWrapper` selects between `ArrayWrapper`, `ObjectWrapper`, and `IDataAccessor`
+ * to wrap Arrays, Objects and all other types respectively.
  */
 export type DataWrapper<T> = T extends any[]
   ? ArrayWrapper<T[number]>
   : T extends object
     ? ObjectWrapper<T>
-    : DataAccessor<T>;
+    : IDataAccessor<T>;
 
 
 /////////////////////////////////////
@@ -85,7 +79,7 @@ export type DataWrapper<T> = T extends any[]
 /**
  * An object that supports optional chaining
  */
-export type OCType<T> = DataWrapper<T> & DataAccessor<T>;
+export type OCType<T> = IDataAccessor<T> & DataWrapper<T>;
 
 
 /**
