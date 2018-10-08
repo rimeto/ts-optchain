@@ -13,7 +13,7 @@ describe('ts-optchain', () => {
       a: string;
       b: { d: string; };
       c: number[];
-      d?: { e: string; };
+      d: { e: string; } | null;
     }
 
     const x = oc<X>({
@@ -22,6 +22,7 @@ describe('ts-optchain', () => {
         d: 'world',
       },
       c: [-100, 200, -300],
+      d: null
     });
 
     expect(x.a()).toEqual('hello');

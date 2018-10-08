@@ -16,7 +16,6 @@
  */
 export type Defined<T> = Exclude<T, undefined>;
 
-
 ////////////////////////////
 //
 // IDataAccessor Definition
@@ -47,7 +46,7 @@ export interface IDataAccessor<T> {
  * `ObjectWrapper` gives TypeScript visibility into the properties of
  * an `OCType` object at compile-time.
  */
-export type ObjectWrapper<T> = { [K in keyof T]-?: OCType<Defined<T[K]>> };
+export type ObjectWrapper<T> = { [K in keyof T]-?: OCType<T[K]> };
 
 /**
  * `ArrayWrapper` gives TypeScript visibility into the `OCType` values of an array
@@ -69,7 +68,6 @@ export type DataWrapper<T> = T extends any[]
     ? ObjectWrapper<T>
     : IDataAccessor<T>;
 
-
 /////////////////////////////////////
 //
 // OCType Definitions
@@ -79,8 +77,7 @@ export type DataWrapper<T> = T extends any[]
 /**
  * An object that supports optional chaining
  */
-export type OCType<T> = IDataAccessor<T> & DataWrapper<T>;
-
+export type OCType<T> = IDataAccessor<T> & DataWrapper<NonNullable<T>>;
 
 /**
  * Proxies access to the passed object to support optional chaining w/ default values.
@@ -108,7 +105,7 @@ export type OCType<T> = IDataAccessor<T> & DataWrapper<T>;
  */
 export function oc<T>(data?: T): OCType<T> {
   return new Proxy(
-    ((defaultValue?: Defined<T>) => (data !== undefined ? data : defaultValue)) as OCType<T>,
+    ((defaultValue?: Defined<T>) => (data || defaultValue)) as OCType<T>,
     {
       get: (target, key) => {
         const obj: any = target();
