@@ -102,14 +102,17 @@ export type OCType<T> = IDataAccessor<T> & DataWrapper<NonNullable<T>>;
  *   (x as any).y.z.a.b.c.d.e.f.g.h.i.j.k() === undefined
  */
 export function oc<T>(data?: T): OCType<T> {
-  return new Proxy(((defaultValue?: Defined<T>) => data || defaultValue) as OCType<T>, {
-    get: (target, key) => {
-      const obj: any = target();
-      if ('object' !== typeof obj) {
-        return oc();
-      }
+  return new Proxy(
+    ((defaultValue?: Defined<T>) => (data == null ? defaultValue : data)) as OCType<T>,
+    {
+      get: (target, key) => {
+        const obj: any = target();
+        if ('object' !== typeof obj) {
+          return oc();
+        }
 
-      return oc(obj[key]);
+        return oc(obj[key]);
+      },
     },
-  });
+  );
 }
