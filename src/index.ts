@@ -107,11 +107,8 @@ export function oc<T>(data?: T): OCType<T> {
     {
       get: (target, key) => {
         const obj: any = target();
-        if ('object' !== typeof obj) {
-          return oc();
-        }
 
-        return oc(obj[key]);
+        return oc(typeof obj === 'object' ? obj[key] : undefined);
       },
     },
   );
