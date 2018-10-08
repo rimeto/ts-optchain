@@ -56,7 +56,7 @@ export type ObjectWrapper<T> = { [K in keyof T]-?: OCType<T[K]> };
 export interface ArrayWrapper<T> {
   length: OCType<number>;
   [K: number]: OCType<T>;
-};
+}
 
 /**
  * `DataWrapper` selects between `ArrayWrapper`, `ObjectWrapper`, and `IDataAccessor`
@@ -64,9 +64,7 @@ export interface ArrayWrapper<T> {
  */
 export type DataWrapper<T> = T extends any[]
   ? ArrayWrapper<T[number]>
-  : T extends object
-    ? ObjectWrapper<T>
-    : IDataAccessor<T>;
+  : T extends object ? ObjectWrapper<T> : IDataAccessor<T>;
 
 /////////////////////////////////////
 //
@@ -104,17 +102,14 @@ export type OCType<T> = IDataAccessor<T> & DataWrapper<NonNullable<T>>;
  *   (x as any).y.z.a.b.c.d.e.f.g.h.i.j.k() === undefined
  */
 export function oc<T>(data?: T): OCType<T> {
-  return new Proxy(
-    ((defaultValue?: Defined<T>) => (data || defaultValue)) as OCType<T>,
-    {
-      get: (target, key) => {
-        const obj: any = target();
-        if ('object' !== typeof obj) {
-          return oc();
-        }
+  return new Proxy(((defaultValue?: Defined<T>) => data || defaultValue) as OCType<T>, {
+    get: (target, key) => {
+      const obj: any = target();
+      if ('object' !== typeof obj) {
+        return oc();
+      }
 
-        return oc(obj[key]);
-      },
+      return oc(obj[key]);
     },
-  );
+  });
 }
