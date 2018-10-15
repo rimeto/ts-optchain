@@ -33,7 +33,13 @@ export interface IDataAccessor<T> {
    * Data accessor with default value.
    * @param defaultValue
    */
-  (defaultValue: Defined<T>): Defined<T>;
+  (defaultValue: NonNullable<T>): NonNullable<T>;
+
+  /**
+   * Data accessor with null default value.
+   * @param defaultValue
+   */
+  (nullDefaultValue: T extends null ? null : never): Defined<T>;
 }
 
 ///////////////////////////
