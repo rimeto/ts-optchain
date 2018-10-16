@@ -10,8 +10,8 @@ npm i --save ts-optchain
 
 ### Requirements
 
-* NodeJS >= 6
-* TypeScript >= 2.8
+- NodeJS >= 6
+- TypeScript >= 2.8
 
 ## Example Usage
 
@@ -42,7 +42,6 @@ const x: I = {
   c: [{ u: { v: -100 } }, { u: { v: 200 } }, {}, { u: { v: -300 } }],
 };
 
-
 // Here are a few examples of deep object traversal using (a) optional chaining vs
 // (b) logic expressions. Each of the following pairs are equivalent in
 // result. Note how the benefits of optional chaining accrue with
@@ -61,18 +60,18 @@ oc(x).c[100].u.v(); // undefined
 x.c && x.c[100] && x.c[100].u && x.c[100].u.v;
 
 oc(x).c[100].u.v(1234); // 1234
-x.c && x.c[100] && x.c[100].u && x.c[100].u.v || 1234;
+(x.c && x.c[100] && x.c[100].u && x.c[100].u.v) || 1234;
 
 oc(x).e.f(); // undefined
 x.e && x.e.f;
 
 oc(x).e.f('optional default value'); // 'optional default value'
-x.e && x.e.f || 'optional default value';
+(x.e && x.e.f) || 'optional default value';
 
 // NOTE: working with function value types can be risky. Additional run-time
 // checks to verify that object types are functions before invocation are advised!
 oc(x).e.g(() => 'Yo Yo')(); // 'Yo Yo'
-(x.e && x.e.g || (() => 'Yo Yo'))();
+((x.e && x.e.g) || (() => 'Yo Yo'))();
 ```
 
 ## Problem
@@ -101,7 +100,7 @@ Without support for optional chaining built into TypeScript yet, an implementati
 
 ```typescript
 function getHomeStreet(user: IUser, defaultValue?: string) {
-  return user.home && user.home.address && user.home.address.street || defaultValue;
+  return (user.home && user.home.address && user.home.address.street) || defaultValue;
 }
 ```
 
@@ -117,9 +116,9 @@ function getHomeStreet(user: IUser, defaultValue?: string) {
 
 However, when using tools like `lodash` the developer loses the benefits of:
 
-* Compile-time validation of the path `home.address.street`
-* Compile-time validation of the expected type of the value at `home.address.street`
-* Development-time code-completion assistance when manipulating the path `home.address.street` using tools like Visual Studio Code.
+- Compile-time validation of the path `home.address.street`
+- Compile-time validation of the expected type of the value at `home.address.street`
+- Development-time code-completion assistance when manipulating the path `home.address.street` using tools like Visual Studio Code.
 
 ## Solution
 
@@ -185,7 +184,7 @@ const result = oc(thing).getter(() => 'Default Getter')();
 
 ## <a name="related"></a>Related Resources
 
-* [Optional Chaining for JavaScript (TC39 Proposal)](https://github.com/tc39/proposal-optional-chaining)
+- [Optional Chaining for JavaScript (TC39 Proposal)](https://github.com/tc39/proposal-optional-chaining)
 
 ## License
 

@@ -16,7 +16,6 @@
  */
 export type Defined<T> = Exclude<T, undefined>;
 
-
 ////////////////////////////
 //
 // IDataAccessor Definition
@@ -34,7 +33,13 @@ export interface IDataAccessor<T> {
    * Data accessor with default value.
    * @param defaultValue
    */
-  (defaultValue: Defined<T>): Defined<T>;
+  (defaultValue: NonNullable<T>): NonNullable<T>;
+
+  /**
+   * Data accessor with null default value.
+   * @param defaultValue
+   */
+  (nullDefaultValue: T extends null ? null : never): Defined<T>;
 }
 
 ///////////////////////////
@@ -47,7 +52,7 @@ export interface IDataAccessor<T> {
  * `ObjectWrapper` gives TypeScript visibility into the properties of
  * an `OCType` object at compile-time.
  */
-export type ObjectWrapper<T> = { [K in keyof T]-?: OCType<Defined<T[K]>> };
+export type ObjectWrapper<T> = { [K in keyof T]-?: OCType<T[K]> };
 
 /**
  * `ArrayWrapper` gives TypeScript visibility into the `OCType` values of an array
@@ -57,7 +62,7 @@ export type ObjectWrapper<T> = { [K in keyof T]-?: OCType<Defined<T[K]>> };
 export interface ArrayWrapper<T> {
   length: OCType<number>;
   [K: number]: OCType<T>;
-};
+}
 
 /**
  * `DataWrapper` selects between `ArrayWrapper`, `ObjectWrapper`, and `IDataAccessor`
@@ -65,10 +70,7 @@ export interface ArrayWrapper<T> {
  */
 export type DataWrapper<T> = T extends any[]
   ? ArrayWrapper<T[number]>
-  : T extends object
-    ? ObjectWrapper<T>
-    : IDataAccessor<T>;
-
+  : T extends object ? ObjectWrapper<T> : IDataAccessor<T>;
 
 /////////////////////////////////////
 //
@@ -79,8 +81,7 @@ export type DataWrapper<T> = T extends any[]
 /**
  * An object that supports optional chaining
  */
-export type OCType<T> = IDataAccessor<T> & DataWrapper<T>;
-
+export type OCType<T> = IDataAccessor<T> & DataWrapper<NonNullable<T>>;
 
 /**
  * Proxies access to the passed object to support optional chaining w/ default values.
@@ -108,15 +109,12 @@ export type OCType<T> = IDataAccessor<T> & DataWrapper<T>;
  */
 export function oc<T>(data?: T): OCType<T> {
   return new Proxy(
-    ((defaultValue?: Defined<T>) => (data !== undefined ? data : defaultValue)) as OCType<T>,
+    ((defaultValue?: Defined<T>) => (data == null ? defaultValue : data)) as OCType<T>,
     {
       get: (target, key) => {
         const obj: any = target();
-        if ('object' !== typeof obj) {
-          return oc();
-        }
 
-        return oc(obj[key]);
+        return oc(typeof obj === 'object' ? obj[key] : undefined);
       },
     },
   );
