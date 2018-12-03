@@ -11,7 +11,7 @@
     "outDir": "dist",
     "strict": true,
     "strictNullChecks": true,
-    "target": "es2015",
+    "target": "ES3",
   },
   "exclude": ["node_modules"],
   "include": ["src"]
