@@ -2,6 +2,10 @@
 
 The `ts-optchain` library is an implementation of optional chaining with default value support for TypeScript. `ts-optchain` helps the developer produce less verbose code while preserving TypeScript typings when traversing deep property structures. This library serves as an interim solution pending JavaScript/TypeScript built-in support for optional chaining in future releases (see: [Related Resources](#related)).
 
+### Alternatives
+
+**If performance is important or if the developer's code must run in JavaScript environments that do not support ES6 Proxy (e.g., IE11), please consider [`ts-transform-optchain`](https://github.com/rimeto/ts-transform-optchain) as an alternative.**
+
 ## Install
 
 ```bash
@@ -10,7 +14,7 @@ npm i --save ts-optchain
 
 ### Requirements
 
-- NodeJS >= 6
+- NodeJS >= 6 or [compatible JS environment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy#Browser_compatibility)
 - TypeScript >= 2.8
 
 ## Example Usage
