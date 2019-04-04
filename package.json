@@ -8,17 +8,22 @@
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "tsc",
+    "build": "npm run clean && tsc && mv build/src dist && rm -rf build",
+    "clean": "rm -rf build dist",
     "prepublishOnly": "npm run build",
-    "test": "jest"
+    "test": "tsc --noEmit && jest"
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^23.3.13",
-    "jest": "^23.6.0",
-    "ts-jest": "^23.10.5",
-    "typescript": "^2.9.2"
+    "@types/jest": "^24.0.11",
+    "conditional-type-checks": "^1.0.0",
+    "jest": "^24.5.0",
+    "ts-jest": "^24.0.0",
+    "typescript": "^3.3.3333"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -27,9 +32,9 @@
       "js",
       "json"
     ],
-    "rootDir": "./src",
+    "rootDir": "./__tests__",
     "testEnvironment": "node",
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "testMatch": ["**/*test.ts"],
     "transform": {
       ".(ts|tsx)": "ts-jest"
     }
