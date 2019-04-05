@@ -81,3 +81,7 @@ assert<Has<ResArrayType, string>>(true);
 const resArrayDefault = oc(x).a.array([]);
 // The default removes the undefined
 assert<Has<typeof resArrayDefault, undefined>>(false);
+
+const resMaybeNullWithDefaultNull = oc(x).a.maybeNull(null);
+assert<Has<typeof resMaybeNullWithDefaultNull, string>>(true);
+assert<Has<typeof resMaybeNullWithDefaultNull, null>>(true);
