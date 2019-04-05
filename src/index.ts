@@ -27,17 +27,15 @@ export interface IDataAccessor<T> {
    * Data accessor without a default value. If no data exists,
    * `undefined` is returned.
    */
-  (): Defined<T> | undefined;
+  (noDefaultValue?: undefined): Defined<T> | undefined;
 
   /**
-   * Data accessor with default value.
-   * @param defaultValue
+   * Normal default values
    */
   (defaultValue: NonNullable<T>): NonNullable<T>;
 
   /**
-   * Data accessor with null default value.
-   * @param defaultValue
+   * Handle null default value
    */
   (nullDefaultValue: T extends null ? null : never): Defined<T>;
 }
