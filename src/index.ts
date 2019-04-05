@@ -23,18 +23,21 @@ export type Defined<T> = Exclude<T, undefined>;
 ////////////////////////////
 
 export interface IDataAccessor<T> {
-
-  /**
-   * Data accessor with default value.
-   * @param defaultValue
-   */
-  (defaultValue: NonNullable<T>): NonNullable<T>;
-
   /**
    * Data accessor without a default value. If no data exists,
    * `undefined` is returned.
    */
-  (): T | undefined
+  (noDefaultValue?: undefined): Defined<T> | undefined;
+
+  /**
+   * Normal default values
+   */
+  (defaultValue: NonNullable<T>): NonNullable<T>;
+
+  /**
+   * Handle null default value
+   */
+  (nullDefaultValue: T extends null ? null : never): Defined<T>;
 }
 
 ///////////////////////////
