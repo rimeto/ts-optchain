@@ -9,8 +9,9 @@
   "main": "./dist/proxy/index.js",
   "types": "./index.d.ts",
   "files": [
+    "dist",
     "index.d.ts",
-    "dist"
+    "transform.js"
   ],
   "scripts": {
     "build": "npm run clean && tsc && find ./dist -type d -and -name '__tests__' | xargs rm -rf",
