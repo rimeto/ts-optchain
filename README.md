@@ -2,10 +2,10 @@
 
 The `ts-optchain` module is an implementation of optional chaining with default value support for TypeScript. `ts-optchain` helps the developer produce less verbose code while preserving TypeScript typings when traversing deep property structures. This library serves as an interim solution pending JavaScript/TypeScript built-in support for optional chaining in future releases (see: [Related Resources](#related)).
 
-This module includes two implementations of optional chaining:
+This module includes two optional chaining implementations:
 
-* **ES6 Proxy Implementation**: trivial setup; *incompatible with legacy browsers, such as IE 11.*
-* **TypeScript Custom Code Transformer**: [faster performance](#benchmarks); compatible with legacy browsers.
+* **ES6 Proxy Implementation**: trivial setup, but *incompatible with legacy browsers, such as IE 11.*
+* **TypeScript Custom Code Transformer**: [faster performance](#benchmarks) and compatible with legacy browsers.
 
 ## Installation
 
@@ -19,7 +19,9 @@ No additional configuration is required to use the ES6 Proxy implementation of `
 
 The ES6 Proxy implementation of `ts-optchain` requires NodeJS >= 6 or [compatible JS environment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy#Browser_compatibility)
 
-**IMPORTANT: ES6 Proxy is NOT supported by many legacy browsers, including IE 11 and older versions of ReactNative Android!** Use one of the alternative implementations instead if support for legacy browsers is a requirement.
+**IMPORTANT: ES6 Proxy is NOT supported by many legacy browsers, including IE 11 and older versions of ReactNative Android!**
+
+Consider using one of the following alternative implementations if support for legacy browsers is a requirement.
 
 ### TypeScript Custom Code Transformer
 
@@ -38,14 +40,14 @@ The ES6 Proxy implementation of `ts-optchain` requires NodeJS >= 6 or [compatibl
 
 The developer can then build + transform via the command line, webpack, ts-node, etc. Please see the [usage instructions](https://github.com/cevek/ttypescript#how-to-use).
 
-Using the custom transformer, the code:
+After setup, the code:
 
 ```typescript
   const obj: T = { /* ... */ };
   const value = oc(obj).propA.propB.propC(defaultValue);
 ```
 
-...will be transformed to:
+...will be automatically transformed to:
 
 ```typescript
   const value =
@@ -56,7 +58,7 @@ Using the custom transformer, the code:
 
 ### Babel Plugin
 
-For developers using `babel` instead of `tsc`, consider using [`babel-plugin-ts-optchain`](https://github.com/epeli/babel-plugin-ts-optchain) to support legacy browsers.
+For developers using `babel` with a need for legacy browser support, consider using the derivative project [`babel-plugin-ts-optchain`](https://github.com/epeli/babel-plugin-ts-optchain).
 
 ## Example Usage
 
