@@ -2,5 +2,6 @@
 
 Many thanks to our contributors!
 
+* @epeli
 * @henrikra
 * @pauloavelar
