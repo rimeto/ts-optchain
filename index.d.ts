@@ -54,31 +54,29 @@ type TSOCDataWrapper<T> = T extends any[]
 /**
  * An object that supports optional chaining
  */
-type TSOCType<T> = TSOCDataAccessor<T> & TSOCDataWrapper<NonNullable<T>>;
+export type TSOCType<T> = TSOCDataAccessor<T> & TSOCDataWrapper<NonNullable<T>>;
 
-declare module "ts-optchain" {
-  /**
-   * Optional chaining with default values. To inspect a property value in
-   * a tree-like structure, invoke it as a function, optionally passing a default value.
-   *
-   * @example
-   *   // Given:
-   *   const x = oc<T>({
-   *     a: 'hello',
-   *     b: { d: 'world' },
-   *     c: [-100, 200, -300],
-   *   });
-   *
-   *   // Then:
-   *   x.a() === 'hello'
-   *   x.b.d() === 'world'
-   *   x.c[0]() === -100
-   *   x.c[100]() === undefined
-   *   x.c[100](1234) === 1234
-   *   x.c.map((e) => e()) === [-100, 200, -300]
-   *   x.d.e() === undefined
-   *   x.d.e('optional default value') === 'optional default value'
-   *   (x as any).y.z.a.b.c.d.e.f.g.h.i.j.k() === undefined
-   */
-  export function oc<T>(data?: T): TSOCType<T>;
-}
+/**
+ * Optional chaining with default values. To inspect a property value in
+ * a tree-like structure, invoke it as a function, optionally passing a default value.
+ *
+ * @example
+ *   // Given:
+ *   const x = oc<T>({
+ *     a: 'hello',
+ *     b: { d: 'world' },
+ *     c: [-100, 200, -300],
+ *   });
+ *
+ *   // Then:
+ *   x.a() === 'hello'
+ *   x.b.d() === 'world'
+ *   x.c[0]() === -100
+ *   x.c[100]() === undefined
+ *   x.c[100](1234) === 1234
+ *   x.c.map((e) => e()) === [-100, 200, -300]
+ *   x.d.e() === undefined
+ *   x.d.e('optional default value') === 'optional default value'
+ *   (x as any).y.z.a.b.c.d.e.f.g.h.i.j.k() === undefined
+ */
+export function oc<T>(data?: T): TSOCType<T>;
