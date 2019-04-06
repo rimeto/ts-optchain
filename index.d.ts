@@ -54,7 +54,7 @@ type TSOCDataWrapper<T> = T extends any[]
 /**
  * An object that supports optional chaining
  */
-export type TSOCType<T> = TSOCDataAccessor<T> & TSOCDataWrapper<NonNullable<T>>;
+type TSOCType<T> = TSOCDataAccessor<T> & TSOCDataWrapper<NonNullable<T>>;
 
 /**
  * Optional chaining with default values. To inspect a property value in
@@ -79,4 +79,4 @@ export type TSOCType<T> = TSOCDataAccessor<T> & TSOCDataWrapper<NonNullable<T>>;
  *   x.d.e('optional default value') === 'optional default value'
  *   (x as any).y.z.a.b.c.d.e.f.g.h.i.j.k() === undefined
  */
-export function oc<T>(data?: T): TSOCType<T>;
+export declare function oc<T>(data?: T): TSOCType<T>;
