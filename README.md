@@ -1,21 +1,64 @@
 # Optional Chaining for TypeScript
 
-The `ts-optchain` library is an implementation of optional chaining with default value support for TypeScript. `ts-optchain` helps the developer produce less verbose code while preserving TypeScript typings when traversing deep property structures. This library serves as an interim solution pending JavaScript/TypeScript built-in support for optional chaining in future releases (see: [Related Resources](#related)).
+The `ts-optchain` module is an implementation of optional chaining with default value support for TypeScript. `ts-optchain` helps the developer produce less verbose code while preserving TypeScript typings when traversing deep property structures. This library serves as an interim solution pending JavaScript/TypeScript built-in support for optional chaining in future releases (see: [Related Resources](#related)).
 
-### Alternatives
+This module includes two optional chaining implementations:
 
-**If performance is important or if the developer's code must run in JavaScript environments that do not support ES6 Proxy (e.g., IE11), please consider [`ts-transform-optchain`](https://github.com/rimeto/ts-transform-optchain) as an alternative.**
+* **ES6 Proxy Implementation**: trivial setup, but *incompatible with legacy browsers, such as IE 11.*
+* **TypeScript Custom Code Transformer**: [faster performance](#benchmarks) and compatible with legacy browsers.
 
-## Install
+## Installation
 
 ```bash
 npm i --save ts-optchain
 ```
 
-### Requirements
+### ES6 Proxy
 
-- NodeJS >= 6 or [compatible JS environment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy#Browser_compatibility)
-- TypeScript >= 2.8
+No additional configuration is required to use the ES6 Proxy implementation of `ts-optchain`.
+
+The ES6 Proxy implementation of `ts-optchain` requires NodeJS >= 6 or [compatible JS environment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy#Browser_compatibility)
+
+**IMPORTANT: ES6 Proxy is NOT supported by many legacy browsers, including IE 11 and older versions of ReactNative Android!**
+
+Consider using one of the following alternative implementations if support for legacy browsers is a requirement.
+
+### TypeScript Custom Code Transformer
+
+[TTypescript](https://github.com/cevek/ttypescript) is a tool allows the developer to apply the TypeScript custom transformer automatically at build time. Configuration is as simple as adding the `plugins` property to `compilerOptions` in `tsconfig.json`, e.g.:
+
+```typescript
+// tsconfig.json
+{
+    "compilerOptions": {
+        "plugins": [
+            { "transform": "ts-optchain/transform" },
+        ]
+    },
+}
+```
+
+The developer can then build + transform via the command line, webpack, ts-node, etc. Please see the [usage instructions](https://github.com/cevek/ttypescript#how-to-use).
+
+After setup, the code:
+
+```typescript
+  const obj: T = { /* ... */ };
+  const value = oc(obj).propA.propB.propC(defaultValue);
+```
+
+...will be automatically transformed to:
+
+```typescript
+  const value =
+    (obj != null && obj.propA != null && obj.propA.propB != null && obj.propA.propB.propC != null)
+      ? obj.propA.propB.propC
+      : defaultValue;
+```
+
+### Babel Plugin
+
+For developers using `babel` with a need for legacy browser support, consider using the derivative project [`babel-plugin-ts-optchain`](https://github.com/epeli/babel-plugin-ts-optchain).
 
 ## Example Usage
 
@@ -186,8 +229,28 @@ const result = oc(thing).getter(() => 'Default Getter')();
 
 `ts-optchain` enables code-completion assistance in popular IDEs such as Visual Studio Code when writing tree-traversal code.
 
+## <a name="benchmarks"></a>Benchmarks
+
+Comparing the ES6 Proxy implementation vs the TypeScript custom transformer implementation.
+
+### Test case:
+
+```typescript
+oc(testData).a.b.c();
+```
+
+### Results:
+
+||`ts-optchain`|`ts-optchain/transform`||
+|--|--:|--:|--:|
+|Chrome 72|`2,352,109 ops/s ±1.16%`|`628,693,809 ops/s ±0.44%`|`267x`|
+|Safari 12|`752,298 ops/s ±1.47%`|`1,760,808,177 ops/s ±0.93%`|`2,340x`|
+|Firefox 65|`272,155 ops/s ±4.78%`|`793,869,896 ops/s ±0.82%`|`2,916x`|
+
+
 ## <a name="related"></a>Related Resources
 
+- [Optional Chaining in TypeScript](https://medium.com/inside-rimeto/optional-chaining-in-typescript-622c3121f99b)
 - [Optional Chaining for JavaScript (TC39 Proposal)](https://github.com/tc39/proposal-optional-chaining)
 
 ## License

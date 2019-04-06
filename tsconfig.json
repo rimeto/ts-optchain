@@ -1,14 +1,13 @@
 {
   "compilerOptions": {
     "alwaysStrict": true,
-    "declaration": true,
     "lib": ["es2015"],
     "module": "commonjs",
     "noEmitOnError": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "outDir": "build",
+    "outDir": "dist",
     "strict": true,
     "strictNullChecks": true,
     "target": "es5",

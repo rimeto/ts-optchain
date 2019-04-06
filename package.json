@@ -1,21 +1,25 @@
 {
   "name": "ts-optchain",
-  "version": "0.1.4",
+  "version": "0.1.5-beta.0",
   "description": "Optional Chaining for TypeScript",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rimeto/ts-optchain.git"
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/proxy/index.js",
+  "types": "./index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "index.d.ts",
+    "transform.js"
   ],
   "scripts": {
-    "build": "npm run clean && tsc && mv build/src dist && rm -rf build",
+    "build": "npm run clean && tsc && find ./dist -type d -and -name '__tests__' | xargs rm -rf",
     "clean": "rm -rf build dist",
     "prepublishOnly": "npm run build",
-    "test": "tsc --noEmit && jest"
+    "test": "npm run test-proxy && npm run test-transform",
+    "test-proxy": "tsc --noEmit && jest src/proxy",
+    "test-transform": "ttsc -p src/transform/__tests__ && jest src/transform/__tests__/dist; ret=$?; rm -rf src/transform/__tests__/dist; exit $ret"
   },
   "license": "MIT",
   "devDependencies": {
@@ -23,7 +27,8 @@
     "conditional-type-checks": "^1.0.0",
     "jest": "^24.5.0",
     "ts-jest": "^24.0.0",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.3.3333",
+    "ttypescript": "^1.5.6"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -32,9 +37,11 @@
       "js",
       "json"
     ],
-    "rootDir": "./__tests__",
+    "rootDir": "./src",
     "testEnvironment": "node",
-    "testMatch": ["**/*test.ts"],
+    "testMatch": [
+      "**/__tests__/**/*-test.[jt]s?(x)"
+    ],
     "transform": {
       ".(ts|tsx)": "ts-jest"
     }
