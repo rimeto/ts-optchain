@@ -31,6 +31,15 @@ interface X {
   getter?: () => string;
 }
 
+interface One {
+  deeplyNested?: {
+    maybeNumber?: number | null;
+  };
+}
+interface DeepUnion {
+  a?: One | string;
+}
+
 declare const x: X;
 
 const resWithDefault = oc(x).a.b("");
@@ -46,6 +55,19 @@ assert<Has<typeof resUnion, "bar">>(true);
 // Does not have null or undefined
 assert<Has<typeof resUnion, undefined>>(false);
 assert<Has<typeof resUnion, null>>(false);
+
+declare const deepUnion: DeepUnion;
+// Handles complex unions
+const resShallowUnion = oc(deepUnion).a("value");
+assert<Has<typeof resShallowUnion, string | One>>(true);
+
+const resUnionProperty = oc(deepUnion).a.deeplyNested({ maybeNumber: 0 });
+assert<
+  Has<typeof resUnionProperty, { maybeNumber?: number | null | undefined }>
+>(true);
+
+const resComplexUnion = oc(deepUnion).a.deeplyNested.maybeNumber(0);
+assert<Has<typeof resComplexUnion, number>>(true);
 
 const resNoDefault = oc(x).a.b();
 // Has string and undefined

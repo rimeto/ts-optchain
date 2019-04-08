@@ -9,6 +9,11 @@
  * A generic type that cannot be `undefined`.
  */
 type Defined<T> = Exclude<T, undefined>;
+type UnionToIntersection<U> = (U extends any
+  ? (k: U) => void
+  : never) extends ((k: infer I) => void)
+  ? I
+  : never;
 
 /**
  * Data accessor interface to dereference the value of the `TSOCType`.
@@ -49,12 +54,16 @@ interface TSOCArrayWrapper<T> {
  */
 type TSOCDataWrapper<T> = T extends any[]
   ? TSOCArrayWrapper<T[number]>
-  : T extends object ? TSOCObjectWrapper<T> : TSOCDataAccessor<T>;
+  : T extends object
+  ? TSOCObjectWrapper<T>
+  : TSOCDataAccessor<T>;
 
 /**
  * An object that supports optional chaining
  */
-type TSOCType<T> = TSOCDataAccessor<T> & TSOCDataWrapper<NonNullable<T>>;
+type TSOCType<T> = UnionToIntersection<TSOCTypeIntersected<T>>;
+type TSOCTypeIntersected<T> = TSOCDataAccessor<T> &
+  TSOCDataWrapper<NonNullable<T>>;
 
 /**
  * Optional chaining with default values. To inspect a property value in
