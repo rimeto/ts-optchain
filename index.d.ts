@@ -44,12 +44,25 @@ interface TSOCArrayWrapper<T> {
 }
 
 /**
+ * Data accessor interface to dereference the value of an `any` type.
+ * @extends TSOCDataAccessor<any>
+ */
+interface TSOCAny extends TSOCDataAccessor<any> {
+  [K: string]: TSOCAny; // Enable deep traversal of arbitrary props
+}
+
+/**
  * `TSOCDataWrapper` selects between `TSOCArrayWrapper`, `TSOCObjectWrapper`, and `TSOCDataAccessor`
  * to wrap Arrays, Objects and all other types respectively.
  */
-type TSOCDataWrapper<T> = T extends any[]
-  ? TSOCArrayWrapper<T[number]>
-  : T extends object ? TSOCObjectWrapper<T> : TSOCDataAccessor<T>;
+type TSOCDataWrapper<T> =
+  0 extends (1 & T) // Is T any? (https://stackoverflow.com/questions/49927523/disallow-call-with-any/49928360#49928360)
+    ? TSOCAny
+    : T extends any[] // Is T array-like?
+      ? TSOCArrayWrapper<T[number]>
+      : T extends object // Is T object-like?
+        ? TSOCObjectWrapper<T>
+        : TSOCDataAccessor<T>;
 
 /**
  * An object that supports optional chaining

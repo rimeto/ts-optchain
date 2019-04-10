@@ -7,8 +7,9 @@
 
 import * as ts from 'typescript';
 
-const TSOC_TYPE_SYMBOL = 'TSOCType';
+const TSOC_ANY_SYMBOL = 'TSOCAny';
 const TSOC_DATA_ACCESSOR_SYMBOL = 'TSOCDataAccessor';
+const TSOC_TYPE_SYMBOL = 'TSOCType';
 
 export default function transformer(program: ts.Program): ts.TransformerFactory<ts.SourceFile> {
   return (context) => (file) => visitNodeAndChildren(file, program, context);
@@ -67,7 +68,11 @@ function _isValidOCType(node: ts.TypeNode | undefined): boolean {
   }
 
   if (ts.isTypeReferenceNode(node) && ts.isIdentifier(node.typeName)) {
-    return node.typeName.escapedText === TSOC_TYPE_SYMBOL || node.typeName.escapedText === TSOC_DATA_ACCESSOR_SYMBOL;
+    return (
+      node.typeName.escapedText === TSOC_ANY_SYMBOL ||
+      node.typeName.escapedText === TSOC_DATA_ACCESSOR_SYMBOL ||
+      node.typeName.escapedText === TSOC_TYPE_SYMBOL
+    );
   }
 
   return false;
