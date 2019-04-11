@@ -9,7 +9,7 @@
  * Type only tests. Do not execute.
  */
 
-import { assert, IsExact, Has } from "conditional-type-checks";
+import { assert, IsExact, Has, IsAny } from "conditional-type-checks";
 
 import { oc } from "../proxy";
 
@@ -26,6 +26,7 @@ interface X {
     maybeNull: string | null;
     array?: (string | null)[];
     notNull: string;
+    any: any;
   };
   exists: string;
   getter?: () => string;
@@ -92,3 +93,10 @@ assert<Has<typeof resArrayDefault, undefined>>(false);
 const resMaybeNullWithDefaultNull = oc(x).a.maybeNull(null);
 assert<Has<typeof resMaybeNullWithDefaultNull, string>>(true);
 assert<Has<typeof resMaybeNullWithDefaultNull, null>>(true);
+
+// Can traverse any sub-structures
+const resAnyValue = oc(x).a.any();
+assert<IsAny<typeof resAnyValue>>(true);
+
+const resAnyDeepValue = oc(x).a.any.moo.says.the.cow('with default');
+assert<IsAny<typeof resAnyDeepValue>>(true);
