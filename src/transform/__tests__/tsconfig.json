@@ -5,5 +5,5 @@
     "plugins": [{ "transform": "../transform.ts" }],
   },
   "exclude": [],
-  "include": ["../../../index.d.ts", "**/*.ts"],
+  "include": ["../../__tests__/**/*-test.ts"],
 }

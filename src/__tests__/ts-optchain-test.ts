@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { oc } from '../../proxy';
+import { oc } from '../..';
 
 describe('ts-optchain', () => {
   it('sanity checks', () => {
@@ -76,11 +76,12 @@ describe('ts-optchain', () => {
     };
 
     expect(oc(x).a()).toEqual(x.a);
-    expect(oc(x).a(undefined)).toEqual(x.a);
     expect(oc(x).b.d()).toEqual(x.b && x.b.d);
     expect(oc(x).c[0].u.v()).toEqual(x.c && x.c[0] && x.c[0].u && (x as any).c[0].u.v);
     expect(oc(x).c[100].u.v()).toEqual(x.c && x.c[100] && x.c[100].u && (x as any).c[100].u.v);
-    expect(oc(x).c[100].u.v(1234)).toEqual((x.c && x.c[100] && x.c[100].u && (x as any).c[100].u.v) || 1234);
+    expect(oc(x).c[100].u.v(1234)).toEqual(
+      (x.c && x.c[100] && x.c[100].u && (x as any).c[100].u.v) || 1234,
+    );
     expect(oc(x).e.f()).toEqual(x.e && x.e.f);
     expect(oc(x).e.f('optional default value')).toEqual((x.e && x.e.f) || 'optional default value');
     expect(oc(x).e.g(() => 'Yo Yo')()).toEqual(((x.e && x.e.g) || (() => 'Yo Yo'))());
