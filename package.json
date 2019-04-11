@@ -18,8 +18,8 @@
     "clean": "rm -rf build dist",
     "prepublishOnly": "npm run build",
     "test": "npm run test-proxy && npm run test-transform",
-    "test-proxy": "tsc --noEmit && jest src/proxy",
-    "test-transform": "ttsc -p src/transform/__tests__ && jest src/transform/__tests__/dist; ret=$?; rm -rf src/transform/__tests__/dist; exit $ret"
+    "test-proxy": "tsc --noEmit && jest",
+    "test-transform": "ttsc -p src/transform/__tests__ && jest src/transform/__tests__; ret=$?; rm -rf src/transform/__tests__/dist; exit $ret"
   },
   "license": "MIT",
   "devDependencies": {

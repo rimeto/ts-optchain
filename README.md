@@ -43,6 +43,7 @@ The developer can then build + transform via the command line, webpack, ts-node,
 After setup, the code:
 
 ```typescript
+  import { oc } from 'ts-optchain';
   const obj: T = { /* ... */ };
   const value = oc(obj).propA.propB.propC(defaultValue);
 ```
