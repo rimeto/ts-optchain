@@ -86,4 +86,9 @@ describe('ts-optchain', () => {
     expect(oc(x).e.f('optional default value')).toEqual((x.e && x.e.f) || 'optional default value');
     expect(oc(x).e.g(() => 'Yo Yo')()).toEqual(((x.e && x.e.g) || (() => 'Yo Yo'))());
   });
+
+  it('chains generic type', () => {
+    const fn = <K extends { prop: string }>(v: K) => oc(v).prop();
+    expect(fn({prop: 'foo'})).toEqual('foo');
+  });
 });

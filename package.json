@@ -23,12 +23,12 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^24.0.11",
+    "@types/jest": "^24.0.12",
     "conditional-type-checks": "^1.0.0",
-    "jest": "^24.5.0",
-    "ts-jest": "^24.0.0",
-    "typescript": "^3.3.3333",
-    "ttypescript": "^1.5.6"
+    "jest": "^24.7.1",
+    "ts-jest": "^24.0.2",
+    "ttypescript": "^1.5.6",
+    "typescript": "^3.4.5"
   },
   "jest": {
     "moduleFileExtensions": [
