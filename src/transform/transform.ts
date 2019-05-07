@@ -62,8 +62,8 @@ function _isValidOCType(node: ts.TypeNode | undefined): boolean {
     return false;
   }
 
-  // Check recursively if we're dealing with a union type
-  if (ts.isIntersectionTypeNode(node)) {
+  // Check recursively if we're dealing with a union or intersection type
+  if (ts.isIntersectionTypeNode(node) || ts.isUnionTypeNode(node)) {
     return node.types.some((n) => _isValidOCType(n));
   }
 
