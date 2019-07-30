@@ -91,4 +91,10 @@ describe('ts-optchain', () => {
     const fn = <K extends { prop: string }>(v: K) => oc(v).prop();
     expect(fn({prop: 'foo'})).toEqual('foo');
   });
+
+  it('ternary order of operations', () => {
+    expect(
+      (oc('')('') ? 'bar' : 'bar')
+    ).toEqual('bar');
+  });
 });
