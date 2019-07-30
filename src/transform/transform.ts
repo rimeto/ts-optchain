@@ -120,5 +120,5 @@ function _expandOCExpression(expression: ts.Expression, defaultExpression?: ts.E
     );
   }
 
-  return ts.createParen(ts.createConditional(ts.createParen(condition), subExpression, defaultExpression || ts.createIdentifier('undefined')));
+  return ts.createParen(ts.createConditional(condition, subExpression, defaultExpression || ts.createIdentifier('undefined')));
 }
