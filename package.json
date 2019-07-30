@@ -1,6 +1,6 @@
 {
   "name": "ts-optchain",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Optional Chaining for TypeScript",
   "repository": {
     "type": "git",
