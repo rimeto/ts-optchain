@@ -24,6 +24,7 @@ function visitNodeAndChildren(node: ts.Node, program: ts.Program, context: ts.Tr
 }
 
 function visitNode(node: ts.Node, program: ts.Program): ts.Node {
+
   const typeChecker = program.getTypeChecker();
   if (ts.isCallExpression(node)) {
     // Check if function call expression is an oc chain, e.g.,
@@ -53,7 +54,6 @@ function visitNode(node: ts.Node, program: ts.Program): ts.Node {
       return _expandOCExpression(node);
     }
   }
-
   return node;
 }
 
@@ -119,5 +119,6 @@ function _expandOCExpression(expression: ts.Expression, defaultExpression?: ts.E
       ts.createBinary(subExpression, ts.SyntaxKind.ExclamationEqualsToken, ts.createNull()),
     );
   }
-  return ts.createConditional(condition, subExpression, defaultExpression || ts.createIdentifier('undefined'));
+
+  return ts.createParen(ts.createConditional(condition, subExpression, defaultExpression || ts.createIdentifier('undefined')));
 }
