@@ -1,4 +1,6 @@
 # Optional Chaining for TypeScript
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Frimeto%2Fts-optchain.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Frimeto%2Fts-optchain?ref=badge_shield)
+
 
 The `ts-optchain` module is an implementation of optional chaining with default value support for TypeScript. `ts-optchain` helps the developer produce less verbose code while preserving TypeScript typings when traversing deep property structures. This library serves as an interim solution pending JavaScript/TypeScript built-in support for optional chaining in future releases (see: [Related Resources](#related)).
 
@@ -257,3 +259,6 @@ oc(testData).a.b.c();
 ## License
 
 `ts-optchain` is MIT Licensed.
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Frimeto%2Fts-optchain.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Frimeto%2Fts-optchain?ref=badge_large)
