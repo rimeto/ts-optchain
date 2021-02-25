@@ -1,3 +1,8 @@
+----
+**This project is now deprecated with [Optional Chaining](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html) support included in TypeScript 3.7 and later.**
+----
+
+
 # Optional Chaining for TypeScript
 
 The `ts-optchain` module is an implementation of optional chaining with default value support for TypeScript. `ts-optchain` helps the developer produce less verbose code while preserving TypeScript typings when traversing deep property structures. This library serves as an interim solution pending JavaScript/TypeScript built-in support for optional chaining in future releases (see: [Related Resources](#related)).
